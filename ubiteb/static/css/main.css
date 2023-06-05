@@ -1,0 +1,58 @@
+html,body{
+    position: relative;
+    overflow-x: hidden;
+    width: 100% !important;
+    height: 100vh;
+    display: table;
+    position: relative;
+    background-position: center;
+    background-attachment: scroll;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+  
+body{
+      background-color: hsl(0, 0%, 98%);
+      font-family: 'raleway';
+ }
+    
+
+form {
+    width: 40%;
+    margin: 0 auto;
+}
+
+
+.image-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden; /* Ensure image does not overflow the container */
+}
+  
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Preserve aspect ratio and fill the container */
+}
+  
+
+.navbar {
+    background-color: #008031;
+}
+
+.navbar li a {
+    font-size: 20px;
+}
+
+.navbar-brand {
+    font-size: 30px !important;
+}
+
+@media(max-width: 767px){
+    form { 
+        width: 90%;
+    }
+}
