@@ -4,22 +4,43 @@
 {% load static %}
 
 {% block content %}
-<br><br>
- <div class = "body container-fluid container login">
-     <div class="container container-fluid top">
-        <h1 class = "text-white text-center" style = "color: #800020 ">LOGIN.</h1><br><br>  
-       </div>     
-       <div class="row">
-            <div class="col">
-                 <div class="image-container">
+
+<body class="hold-transition" style="background-color: red;">
+
+ <div class = "login-box">
+    <div>
+        <h1 class = "bs-danger" style="text-align: center;"><b>UBTEB<b/> Alumni Tracking System</h1><br><br>  
+    </div>     
+       <div class="card">
+            <div class="card-body login-card-body">
+                
+                 <div style="text-align: center;">
                     <img src="\static\images\ub.jpg" alt="My Image">
                   </div>
-                <div class="container container-fluid">
+                <div class="p-2 bd-highlight">
+                    
                     <form id = "form" method="POST"> 
+                        <h4 class="p-2 bd-highlight"><b>Login to ATIS</b></h4>
                         {% csrf_token %}  
-                        {{form | crispy}}
-                        <br> <br> 
-                        <input type="submit" name = "Submit" class="btn btn-success btn-block" type="button">
+                        {% comment %} {{form | crispy}} {% endcomment %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="username" name="username">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="input-group mb-3">
+                            <input type="password" class="form-control" placeholder="Password" name="password">
+                            <div class="input-group-append">
+                              <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                              </div>
+                            </div>
+                          </div>
+                        <br>
+                        <input type="submit" name = "Submit" class="btn btn-success btn-block" type="button" style="background-color: blue;">
                         <br>                
                     </form>      
                 </div>

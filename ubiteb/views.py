@@ -22,6 +22,7 @@ def dashboard(request):
     empP_ent = Alumni.objects.filter(employment_entity  = "private").count()
     empN_ent = Alumni.objects.filter(employment_entity  = "ngo").count()
     empM_ent = Alumni.objects.filter(employment_entity  = "missionary").count()
+    
     return render(request,'home.html',{
         'alumnus':alumnus,
         'transY_total':transY_total,

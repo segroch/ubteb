@@ -1,13 +1,21 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
+from django.utils import timezone
+import datetime
 from django_countries.fields import CountryField
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext as _
 
 # Create your models here.
 
 class Alumni(models.Model):
+    
+    YEAR_CHOICES = []
+    for r in range(1980, (datetime.datetime.now().year+1)):
+        YEAR_CHOICES.append((r,r))
+    
     STATUS_CHOICES = [("graduated", "Graduated"), ("not graduated", "Not Graduated")]
 
     GENDER_CHOICES = [("male", "Male"), ("female", "Female")]
@@ -16,15 +24,15 @@ class Alumni(models.Model):
     
     PROGRAM_CHOICES = [('ndict', 'NDICT'), ('ndbce', 'NDBCE')]
     
-    TRANSCRIPT_CHOICES = [("recieved", "Recieved"), ("not recieved", "Not Recieved")]
+    TRANSCRIPT_CHOICES = [("received", "Received"), ("not received", "Not Received")]
     
-    CERTIFICATE_CHOICES = [("recieved", "Recieved"), ("not recieved", "Not Recieved")]
+    CERTIFICATE_CHOICES = [("received", "Received"), ("not received", "Not Received")]
     
     CENTER_CHOICES = [('mbi', 'MBI'), ('mubs', 'MUBS')]
     
-    EMPLOYMENT_STATUS_CHOICES = [("yes", "Yes"), ("no", "No")]
+    EMPLOYMENT_STATUS_CHOICES = [("employed", "Employed"), ("unemployed", "Unemployed")]
     
-    EMPLOYEMENT_ENTITY_CHOICES = [("government", "Government"), ("private", "Private"),("ngo", "NGO"), ("missionnary", "Missionary")]
+    EMPLOYEMENT_ENTITY_CHOICES = [("government", "Government"), ("private", "Private"),("ngo", "NGO"), ("missionnary", "Missionary"), ("none", "None")]
 
     current_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
     
@@ -41,11 +49,11 @@ class Alumni(models.Model):
     program_level = models.CharField(max_length=30, choices=PROGRAM_LEVEL_CHOICES, default='certificate')
     program = models.CharField(max_length=50, choices=PROGRAM_CHOICES, default='ndict')
     center = models.CharField(max_length=50, choices= CENTER_CHOICES, default='mbi')
-    start_year = models.DateField(default=timezone.now)
-    finish_year = models.DateField(default=timezone.now)
-    transcript_status = models.CharField(max_length=30, choices=TRANSCRIPT_CHOICES, default='recieved')
+    start_year = models.IntegerField(_('Start Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    completion_year = models.IntegerField(_('Completion Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
+    transcript_status = models.CharField(max_length=30, choices=TRANSCRIPT_CHOICES, default='received')
     certificate_status = models.CharField(max_length=30, choices=CERTIFICATE_CHOICES, default='received')
-    employment_status = models.CharField(max_length=10, choices=EMPLOYMENT_STATUS_CHOICES, default='yes')
+    employment_status = models.CharField(max_length=10, choices=EMPLOYMENT_STATUS_CHOICES, default='employed')
     employment_entity = models.CharField(max_length=20, choices=EMPLOYEMENT_ENTITY_CHOICES, default='government')
     
     
@@ -56,9 +64,13 @@ class Alumni(models.Model):
     
     #others = models.TextField(blank=True)
     #passport = models.ImageField(blank=True, upload_to="students/passports/")
+        
 
+    
     class Meta:
         ordering = ["regNo"]
 
     def __str__(self):
-        return f"{self.regNo}"
+        return f"{self.regNo}, "
+    
+    
