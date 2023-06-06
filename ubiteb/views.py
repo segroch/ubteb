@@ -6,10 +6,6 @@ from .forms import addAlumnus, editAlumnus
 
 # Create your views here.
 @login_required
-def home (request):
-    return render(request, 'home.html')
-
-
 def dashboard(request):
     alumnus = Alumni.objects.all().count()
     transY_total = Alumni.objects.filter(transcript_status='received').count()
@@ -67,7 +63,7 @@ def alumni(request):
     Alumni_filters =Alumni_filter(request.GET, queryset=alumni)
     alumni = Alumni_filters.qs
     total_count = alumni.count()
-    return render(request, 'alumni_list.html', {'alumni':alumni,'Alumni_filters':Alumni_filters,})
+    return render(request, 'alumni_list.html', {'alumni':alumni,'Alumni_filters':Alumni_filters,'total_count':total_count})
 
 def delete(request):
     pass

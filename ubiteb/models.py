@@ -73,8 +73,4 @@ class Alumni(models.Model):
     def __str__(self):
         return f"{self.regNo} "
     
-class AlumniBulkUpload(models.Model):
-    date_uploaded = models.DateTimeField(auto_now=True)
-    csv_file = models.FileField(upload_to="alu/bulkupload/")
-    
     
