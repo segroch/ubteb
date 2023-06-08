@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'django_filters',
-    'phonenumber_field'
+    'phonenumber_field',
+    "corsheaders",
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
