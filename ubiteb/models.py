@@ -70,6 +70,6 @@ class Alumni(models.Model):
         ordering = ["regNo"]
 
     def __str__(self):
-        return f"{self.regNo}, "
+        return f"{self.regNo} "
     
     
