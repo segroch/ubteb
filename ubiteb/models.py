@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils import timezone
+from django.urls import reverse
 import datetime
 from django_countries.fields import CountryField
 from django.db import models
@@ -15,7 +16,7 @@ class Alumni(models.Model):
     for r in range(1980, (datetime.datetime.now().year+1)):
         YEAR_CHOICES.append((r,r))
     
-    STATUS_CHOICES = [("graduated", "Graduated"), ("not graduated", "Not Graduated")]
+    #STATUS_CHOICES = [("graduated", "Graduated"), ("not graduated", "Not Graduated")]
 
     GENDER_CHOICES = [("male", "Male"), ("female", "Female")]
     
@@ -32,10 +33,10 @@ class Alumni(models.Model):
     EMPLOYMENT_STATUS_CHOICES = [("employed", "Employed"), ("unemployed", "Unemployed")]
     
     EMPLOYEMENT_ENTITY_CHOICES = [("government", "Government"), ("private", "Private"),("ngo", "NGO"), ("missionnary", "Missionary"), ("none", "None")]
+    
 
-    current_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
-    
-    
+
+    #current_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
     surname = models.CharField(max_length=200, default=None)
     othernames = models.CharField(max_length=200, default=None)
     regNo = models.CharField(max_length=200, unique=True)
@@ -56,15 +57,17 @@ class Alumni(models.Model):
     employment_entity = models.CharField(max_length=40, choices=EMPLOYEMENT_ENTITY_CHOICES, default='government')
     
     
-
-
-        
-
     
+
     class Meta:
-        ordering = ["regNo"]
+        ordering = ["surname", "othernames", "regNo"]
 
     def __str__(self):
-        return f"{self.regNo} "
+        return f"{self.surname} {self.othernames} {self.regNo} ({self.program_level}, {self.program})"
+
+    def get_absolute_url(self):
+        return reverse("alumnus-detail", kwargs={"pk": self.pk})
+    
+
     
     

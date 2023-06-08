@@ -1,9 +1,20 @@
+from rest_framework import viewsets
+from .models import *
+from .serializers import *
+from django.views.generic import TemplateView
+import pandas as pd
+import io
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from .filters import Alumni_filter
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.edit import CreateView
 from .forms import addAlumnus, editAlumnus
 import csv
+import logging
+
+
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -69,43 +80,98 @@ def delete(request):
     pass
 
 
-def upload_csv(request):
-    if request.method == 'POST':
+
+class AlumniViewSet(viewsets.ModelViewSet):
+    serializer_class = AlumniSerializer
+    queryset = Alumni.objects.all()
+
+
+class CsvUploader(TemplateView):
+    template_name = 'upload.html'
+    logger = logging.getLogger(__name__)
+
+    def post(self, request):
+        context = {
+            'messages': []
+        }
+
         csv_file = request.FILES['csv_file']
 
-        if not csv_file.name.endswith('.csv'):
-            return render(request, 'error.html', {'error': 'Please upload a CSV file.'})
+        try:
+            self.process_csv_file(csv_file)
+            context['messages'].append('CSV file uploaded successfully.')
+        except Exception as e:
+            context['exceptions_raised'] = e
+            self.logger.exception("Error occurred while processing CSV record.")  # Add this line to log the exception
 
-        csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+        return render(request, self.template_name, context)
 
-        for row in csv_data:
-            surname=row[0]
-            othernames=row[1]
-            regNo=row[2]
-            dob=row[3]
-            gender=row[4]
-            phone_number=row[5]
-            email=row[6]
-            nationality=row[7]
-            district=row[8]
-            program_level=row[9],
-            program=row[10]
-            center=row[11],
-            start_year=row[12]
-            completion_year=row[13],
-            transcript_status=row[14]
-            certificate_status=row[15],
-            employment_status=row[16]
-           # employment_entity=row[17],
-            comp_date = int(completion_year)
-            stat_year = int(start_year)
-            # Create a new instance of YourModel and save it
-            your_model_instance = Alumni(surname=surname, othernames=othernames, regNo=regNo,dob=dob, gender=gender,
-            phone_number=phone_number,email=email,nationality=nationality,district=district,program_level=program_level,program=program,
-            center=center, start_year=stat_year, completion_year=comp_date,transcript_status=transcript_status,
-            certificate_status=certificate_status, employment_status=employment_status,)
-            your_model_instance.save()
+    def process_csv_file(self, csv_file):
+        reader = csv.DictReader(csv_file.read().decode('utf-8').splitlines())
 
-        return render(request, 'success.html')
-    else:
-        return render(request, 'upload.html')
+        for record in reader:
+            try:
+                alumni = Alumni.objects.create(
+                    surname=record['surname'],
+                    othernames=record['othernames'],
+                    regNo=record['regNo'],
+                    dob=record['dob'],
+                    gender=record['gender'],
+                    phone_number=record['phone_number'],
+                    email=record['email'],
+                    nationality=record['nationality'],
+                    district=record['district'],
+                    program_level=record['program_level'],
+                    program=record['program'],
+                    center=record['center'],
+                    start_year=record['start_year'],
+                    completion_year=record['completion_year'],
+                    transcript_status=record['transcript_status'],
+                    certificate_status=record['certificate_status'],
+                    employment_status=record['employment_status'],
+                    employment_entity=record['employment_entity'],
+                )
+                print(f"Created alumni record: {alumni}")
+            except Exception as e:
+                # Handle exceptions appropriately (e.g., log them, display error messages, etc.)
+                pass
+
+# def upload_csv(request):
+#     if request.method == 'POST':
+#         csv_file = request.FILES['csv_file']
+
+#         if not csv_file.name.endswith('.csv'):
+#             return render(request, 'error.html', {'error': 'Please upload a CSV file.'})
+
+#         csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+
+#         for row in csv_data:
+#             surname=row[0],
+#             othernames=row[1],
+#             regNo=row[2],
+#             dob=row[3],
+#             gender=row[4],
+#             phone_number=row[5]
+#             email=row[6],
+#             nationality=row[7],
+#             district=row[8],
+#             program_level=row[9],
+#             program=row[10],
+#             center=row[11],
+#             start_year=row[12],
+#             completion_year=row[13],
+#             transcript_status=row[14],
+#             certificate_status=row[15],
+#             employment_status=row[16],
+#             employment_entity=row[17],
+
+#             # Create a new instance of YourModel and save it
+#             your_model_instance = Alumni(surname=surname, othernames=othernames, regNo=regNo,dob=dob, gender=gender,
+#             phone_number=phone_number,email=email,nationality=nationality,district=district,program_level=program_level,program=program,
+#             center=center, start_year=start_year, completion_year=completion_year,transcript_status=transcript_status,
+#             certificate_status=certificate_status, employment_status=employment_status, employment_entity=employment_entity)
+#             your_model_instance.save()
+
+#         return render(request, 'success.html')
+#     else:
+#         return render(request, 'upload.html')
