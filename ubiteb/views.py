@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from .filters import Alumni_filter
 from .forms import addAlumnus, editAlumnus
-
+import csv
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -67,3 +67,45 @@ def alumni(request):
 
 def delete(request):
     pass
+
+
+def upload_csv(request):
+    if request.method == 'POST':
+        csv_file = request.FILES['csv_file']
+
+        if not csv_file.name.endswith('.csv'):
+            return render(request, 'error.html', {'error': 'Please upload a CSV file.'})
+
+        csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+
+        for row in csv_data:
+            surname=row[0]
+            othernames=row[1]
+            regNo=row[2]
+            dob=row[3]
+            gender=row[4]
+            phone_number=row[5]
+            email=row[6]
+            nationality=row[7]
+            district=row[8]
+            program_level=row[9],
+            program=row[10]
+            center=row[11],
+            start_year=row[12]
+            completion_year=row[13],
+            transcript_status=row[14]
+            certificate_status=row[15],
+            employment_status=row[16]
+           # employment_entity=row[17],
+            comp_date = int(completion_year)
+            stat_year = int(start_year)
+            # Create a new instance of YourModel and save it
+            your_model_instance = Alumni(surname=surname, othernames=othernames, regNo=regNo,dob=dob, gender=gender,
+            phone_number=phone_number,email=email,nationality=nationality,district=district,program_level=program_level,program=program,
+            center=center, start_year=stat_year, completion_year=comp_date,transcript_status=transcript_status,
+            certificate_status=certificate_status, employment_status=employment_status,)
+            your_model_instance.save()
+
+        return render(request, 'success.html')
+    else:
+        return render(request, 'upload.html')
