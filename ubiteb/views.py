@@ -96,7 +96,7 @@ def upload_csv(request):
             transcript_status=row[14]
             certificate_status=row[15],
             employment_status=row[16]
-           # employment_entity=row[17],
+           #employment_entity=row[17],
             comp_date = int(completion_year)
             stat_year = int(start_year)
             # Create a new instance of YourModel and save it
