@@ -19,19 +19,24 @@ import logging
 @login_required
 def dashboard(request):
     alumnus = Alumni.objects.all().count()
-    transY_total = Alumni.objects.filter(transcript_status='received').count()
-    transN_total = Alumni.objects.filter(transcript_status='not received').count()
-    certY_total = Alumni.objects.filter(certificate_status = "received").count()
-    certN_total = Alumni.objects.filter(certificate_status = "not received").count()
-    empY_stat = Alumni.objects.filter(employment_status = "employed").count()
-    empN_stat = Alumni.objects.filter(employment_status = "not employed").count()
-    empG_ent = Alumni.objects.filter(employment_entity = "government").count()
-    empP_ent = Alumni.objects.filter(employment_entity  = "private").count()
-    empN_ent = Alumni.objects.filter(employment_entity  = "ngo").count()
-    empM_ent = Alumni.objects.filter(employment_entity  = "missionary").count()
+    female_total = Alumni.objects.filter(gender='Female').count()
+    male_total = Alumni.objects.filter(gender='Male').count()
+    transY_total = Alumni.objects.filter(transcript_status='Received').count()
+    transN_total = Alumni.objects.filter(transcript_status='Not Received').count()
+    certY_total = Alumni.objects.filter(certificate_status = "Received").count()
+    certN_total = Alumni.objects.filter(certificate_status = "Not Received").count()
+    empY_stat = Alumni.objects.filter(employment_status = "Employed").count()
+    empN_stat = Alumni.objects.filter(employment_status = "Unemployed").count()
+    empG_ent = Alumni.objects.filter(employment_entity = "Government").count()
+    empP_ent = Alumni.objects.filter(employment_entity  = "Private").count()
+    empN_ent = Alumni.objects.filter(employment_entity  = "NGO").count()
+    empM_ent = Alumni.objects.filter(employment_entity  = "Missionary").count()
+    
     
     return render(request,'home.html',{
         'alumnus':alumnus,
+        'female_total':female_total,
+        'male_total': male_total,
         'transY_total':transY_total,
         'transN_total':transN_total,
         'certY_total':certY_total,
@@ -41,7 +46,7 @@ def dashboard(request):
         'empG_ent':empG_ent,
         'empP_ent':empP_ent,
         'empN_ent':empN_ent,
-        'empM_ent':empM_ent,
+        'empM_ent':empM_ent
 
 
     })
@@ -133,50 +138,6 @@ class CsvUploader(TemplateView):
                 )
                 print(f"Created alumni record: {alumni}")
             except Exception as e:
+                print(e)
                 #Handle exceptions appropriately (e.g., log them, display error messages, etc.)
-                pass
 
-
-# class CsvUploader(TemplateView):
-#     template_name = 'csv_uploader.html'
-#     logger = logging.getLogger(__name__)
-
-#     def post(self, request):
-#         context = {
-#             'messages':[]
-#         }
-
-#         csv = request.FILES['csv']
-#         csv_data = pd.read_csv(
-#             io.StringIO(
-#                 csv.read().decode("utf-8")
-#             )
-#         )
-
-#         for record in csv_data.to_dict(orient="records"):
-#             try:
-#                 Alumni.objects.create(
-#                     surname=record['surname'],
-#                     othernames=record['othernames'],
-#                     regNo=record['regNo'],
-#                     dob=record['dob'],
-#                     gender=record['gender'],
-#                     phone_number=record['phone_number'],
-#                     email=record['email'],
-#                     nationality=record['nationality'],
-#                     district=record['district'],
-#                     program_level=record['program_level'],
-#                     program=record['program'],
-#                     center=record['center'],
-#                     start_year=record['start_year'],
-#                     completion_year=record['completion_year'],
-#                     transcript_status=record['transcript_status'],
-#                     certificate_status=record['certificate_status'],
-#                     employment_status=record['employment_status'],
-#                     employment_entity=record['employment_entity'],)
-                
-#             except Exception as e:
-#                 #Handle exceptions appropriately (e.g., log them, display error messages, etc.)
-#                 pass
-
-#         return render(request, self.template_name, context)

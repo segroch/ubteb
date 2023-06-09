@@ -16,23 +16,28 @@ class Alumni(models.Model):
     for r in range(1980, (datetime.datetime.now().year+1)):
         YEAR_CHOICES.append((r,r))
     
-    #STATUS_CHOICES = [("graduated", "Graduated"), ("not graduated", "Not Graduated")]
 
-    GENDER_CHOICES = [("male", "Male"), ("female", "Female")]
+    GENDER_CHOICES = [("Male", "Male"), ("Female", "Female")]
     
-    PROGRAM_LEVEL_CHOICES =[("certificate", "Certificate"), ("diploma", "Diploma")]
+    PROGRAM_LEVEL_CHOICES =[("Higher Diploma", "Higher Diploma"),
+                            ("Diploma", "Diploma"),
+                            ("National Certificate", "National Certificate"),
+                            ("Uganda Community of Polytechnic Certificate", "UCPC"),]
     
-    PROGRAM_CHOICES = [('ndict', 'NDICT'), ('ndbce', 'NDBCE')]
+    PROGRAM_CHOICES = [('National Diploma in Mechanic Engineering', 'National Diploma in Mechanical Engineering'),
+                       ('National Diploma in Civil Engineering', 'National Diploma in Civil Engineering'),
+                       ('National Diploma in Water Engineering', 'National Diploma in Water Engineering'),
+                       ('National Diploma in Electrical Engineering', 'National Diploma in Electrical Engineering')]
     
-    TRANSCRIPT_CHOICES = [("received", "Received"), ("not received", "Not Received")]
+    TRANSCRIPT_CHOICES = [("Received", "Received"), ("Not Received", "Not Received")]
     
-    CERTIFICATE_CHOICES = [("received", "Received"), ("not received", "Not Received")]
+    CERTIFICATE_CHOICES = [("Received", "Received"), ("Not Received", "Not Received")]
     
     CENTER_CHOICES = [('mbi', 'MBI'), ('mubs', 'MUBS')]
     
-    EMPLOYMENT_STATUS_CHOICES = [("employed", "Employed"), ("unemployed", "Unemployed")]
+    EMPLOYMENT_STATUS_CHOICES = [("Employed", "Employed"), ("Unemployed", "Unemployed")]
     
-    EMPLOYEMENT_ENTITY_CHOICES = [("government", "Government"), ("private", "Private"),("ngo", "NGO"), ("missionnary", "Missionary"), ("none", "None")]
+    EMPLOYEMENT_ENTITY_CHOICES = [("Government", "Government"), ("Private", "Private"),("NGO", "NGO"), ("Missionary", "Missionary"), ("None", "None")]
     
 
 
@@ -46,15 +51,15 @@ class Alumni(models.Model):
     email=models.EmailField(max_length=50, unique=True)
     nationality = CountryField()
     district = models.CharField(max_length=30, blank=True)
-    program_level = models.CharField(max_length=30, choices=PROGRAM_LEVEL_CHOICES, default='certificate')
-    program = models.CharField(max_length=50, choices=PROGRAM_CHOICES, default='ndict')
-    center = models.CharField(max_length=50, choices= CENTER_CHOICES, default='mbi')
+    program_level = models.CharField(max_length=100, choices=PROGRAM_LEVEL_CHOICES)
+    program = models.CharField(max_length=50, choices=PROGRAM_CHOICES, default=None)
+    center = models.CharField(max_length=50, choices= CENTER_CHOICES, default=None)
     start_year = models.IntegerField(_('Start Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     completion_year = models.IntegerField(_('Completion Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
-    transcript_status = models.CharField(max_length=30, choices=TRANSCRIPT_CHOICES, default='received')
-    certificate_status = models.CharField(max_length=30, choices=CERTIFICATE_CHOICES, default='received')
-    employment_status = models.CharField(max_length=40, choices=EMPLOYMENT_STATUS_CHOICES, default='employed')
-    employment_entity = models.CharField(max_length=40, choices=EMPLOYEMENT_ENTITY_CHOICES, default='government')
+    transcript_status = models.CharField(max_length=30, choices=TRANSCRIPT_CHOICES)
+    certificate_status = models.CharField(max_length=30, choices=CERTIFICATE_CHOICES)
+    employment_status = models.CharField(max_length=40, choices=EMPLOYMENT_STATUS_CHOICES)
+    employment_entity = models.CharField(max_length=40, choices=EMPLOYEMENT_ENTITY_CHOICES)
     
         
     def serialize_nationality(self):

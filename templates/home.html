@@ -82,7 +82,7 @@
         </div>
         <div class-="row">
          <div class="col-lg-3 col-6">
-          <div class="small-box bg-info" >
+          <div class="small-box bg-primary" >
             <div class="inner">
               <h3>{{ alumnus }}</h3> 
               <h4>Total Alumni</h4>
@@ -90,12 +90,12 @@
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="{% url 'al_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-left"></i></a>
+            <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-left"></i></a>
           </div>
         </div>
         
           <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
+            <div class="small-box bg-info">
               <div class= "inner">
                 <h3>{{ certY_total }}</h3>
                 <h4>Total Alumni with Certificates</h4> 
@@ -103,12 +103,12 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-                <a href="{% url 'al_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
         
           <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{ transY_total }}</h3> 
                 <h4>Total Alumni with Transcripts</h4>
@@ -116,7 +116,7 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                  <a href="{% url 'al_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                  <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <div class="col-lg-3 col-6">
@@ -128,26 +128,56 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-                <a href="{% url 'al_list' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           
-        <div class="row">
-          <div class="col-sm-8">
-            <br><br><br>
-            <div class="well">
-             <h3>Employment Entity</h3>
-              <p>Government - {{empG_ent}}</p>
-              <p>Private - {{ empP_ent }}</p>
-              <p>NGO - {{ empN_ent }}</p>
-              <p>Missionary - {{ empM_ent }}</p>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </div>
-</div>
-<div class="col-lg-6">
+    <div class-="row">
+      <div class="col-lg-3 col-6">
+       <div class="small-box bg-danger bg-gradient" >
+         <div class="inner">
+           <h3>{{ female_total }}</h3> 
+           <h4>Total Female Alumni</h4>
+         </div>
+         <div class="icon">
+           <i class="ion ion-stats-bars"></i>
+         </div>
+         <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-left"></i></a>
+       </div>
+     </div>
+     
+       <div class="col-lg-3 col-6">
+         <div class="small-box bg-primary">
+           <div class= "inner">
+             <h3>{{ male_total }}</h3>
+             <h4>Total Male Alumni</h4> 
+           </div>
+           <div class="icon">
+             <i class="ion ion-stats-bars"></i>
+           </div>
+             <a href="{% url 'al_list' %}" class="small-box-footer" style="color:red">More info <i class="fas fa-arrow-circle-right"></i></a>
+         </div>
+       </div>
+    
+       
+     <div class="row">
+       <div class="col-sm-8">
+         <br><br><br>
+         <div class="well bg-info">
+          <h3 style="color:red">Employment Entity</h3>
+           <p>Government - {{empG_ent}}</p>
+           <p>Private - {{ empP_ent }}</p>
+           <p>NGO - {{ empN_ent }}</p>
+           <p>Missionary - {{ empM_ent }}</p>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ <div class="col-lg-6">
   <div class="card card-danger">
     <div class="card-header">
       <h3 class="card-title">Received transcripts Vs Not Received transcripts</h3>
@@ -160,11 +190,11 @@
     <div class="card-body">
       <canvas id="pieChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
     </div>
-
-
   </div>
-
 </div>
+ 
+</div>
+
 
 </body>
 </html>

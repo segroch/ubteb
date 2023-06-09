@@ -37,17 +37,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <div class="row">
+      <div class="row" style="font-size: 40px">
         <a href="{% url 'dashboard' %}" class="brand-link">
           <img src="\static\images\ub.jpg" alt=""  class="brand-image img-circle elevation-10"
           style="opacity: .8;" width="70px" >
-          <span class="brand-text font-weight-light">UBTEB ATIS</span>
+          <span class="brand-text font-weight-bold">UBTEB ATIS</span>
         </a>
       </div>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard' %}" style="font-size: 700px">Dashboard</a></li>
         <li><a href="{% url 'al_list' %}">Alumni</a></li>
         <li class="active"><a href="{% url 'add_alumni' %}">Add Alumni</a></li>
         <li><a href="{% url 'edit_alumni' %}">Edit Alumni</a></li>
