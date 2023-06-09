@@ -87,7 +87,7 @@ class AlumniViewSet(viewsets.ModelViewSet):
 
 
 class CsvUploader(TemplateView):
-    template_name = 'upload.html'
+    template_name ='upload.html'
     logger = logging.getLogger(__name__)
 
     def post(self, request):
@@ -133,7 +133,7 @@ class CsvUploader(TemplateView):
                 )
                 print(f"Created alumni record: {alumni}")
             except Exception as e:
-                # Handle exceptions appropriately (e.g., log them, display error messages, etc.)
+                #Handle exceptions appropriately (e.g., log them, display error messages, etc.)
                 pass
 
 # def upload_csv(request):
