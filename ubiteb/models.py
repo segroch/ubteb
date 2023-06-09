@@ -56,6 +56,9 @@ class Alumni(models.Model):
     employment_status = models.CharField(max_length=40, choices=EMPLOYMENT_STATUS_CHOICES, default='employed')
     employment_entity = models.CharField(max_length=40, choices=EMPLOYEMENT_ENTITY_CHOICES, default='government')
     
+        
+    def serialize_nationality(self):
+        return str(self.nationality)
     
     
 
@@ -67,7 +70,7 @@ class Alumni(models.Model):
 
     def get_absolute_url(self):
         return reverse("alumnus-detail", kwargs={"pk": self.pk})
-    
+
 
     
     
