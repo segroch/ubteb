@@ -6,7 +6,11 @@ from django.contrib.auth import views as auth_views
 from django.urls import re_path as url
 from rest_framework import routers
 
+router = routers.DefaultRouter()
 
+
+#API
+router.register(r'alumni',AlumniViewSet, basename='alumni' )
 
 urlpatterns = [
 
@@ -19,7 +23,8 @@ urlpatterns = [
     path('edit-alumni/', views.edit_alumni , name='edit_alumni'),
     path('alumni-list/', views.alumni , name='al_list'),
     #path('upload-csv/', views.upload_csv, name='upload_csv'),
-    path('upload-csv/', CsvUploader.as_view(), name='upload-csv'),
-    #path('add-csv/', views.add_csv, name='add_csv'),
+    #path('upload-csv/', CsvUploader.as_view(), name='upload-csv'),
+    path('api/', include(router.urls), name='api'),
+    url('^csv-uploader/$', CsvUploader.as_view(), name='csv-uploader'),
    # path('upload-csv', views.upload , name='upload'),
 ]
