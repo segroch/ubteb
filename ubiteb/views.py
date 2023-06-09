@@ -128,7 +128,7 @@ class CsvUploader(TemplateView):
                     district=record['district'],
                     program_level=record['program_level'],
                     program=record['program'],
-                    center=record['center'],
+                    exam_center=record['exam_center'],
                     start_year=record['start_year'],
                     completion_year=record['completion_year'],
                     transcript_status=record['transcript_status'],

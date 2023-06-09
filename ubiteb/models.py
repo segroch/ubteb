@@ -7,6 +7,8 @@ from django_countries.fields import CountryField
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
+from .utils import get_centers_from_csv
+
 
 # Create your models here.
 
@@ -33,15 +35,13 @@ class Alumni(models.Model):
     
     CERTIFICATE_CHOICES = [("Received", "Received"), ("Not Received", "Not Received")]
     
-    CENTER_CHOICES = [('mbi', 'MBI'), ('mubs', 'MUBS')]
-    
     EMPLOYMENT_STATUS_CHOICES = [("Employed", "Employed"), ("Unemployed", "Unemployed")]
     
     EMPLOYEMENT_ENTITY_CHOICES = [("Government", "Government"), ("Private", "Private"),("NGO", "NGO"), ("Missionary", "Missionary"), ("None", "None")]
     
 
 
-    #current_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
+   
     surname = models.CharField(max_length=200, default=None)
     othernames = models.CharField(max_length=200, default=None)
     regNo = models.CharField(max_length=200, unique=True)
@@ -53,7 +53,7 @@ class Alumni(models.Model):
     district = models.CharField(max_length=30, blank=True)
     program_level = models.CharField(max_length=100, choices=PROGRAM_LEVEL_CHOICES)
     program = models.CharField(max_length=50, choices=PROGRAM_CHOICES, default=None)
-    center = models.CharField(max_length=50, choices= CENTER_CHOICES, default=None)
+    exam_center = models.CharField(max_length=200, choices=())
     start_year = models.IntegerField(_('Start Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     completion_year = models.IntegerField(_('Completion Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     transcript_status = models.CharField(max_length=30, choices=TRANSCRIPT_CHOICES)
@@ -64,6 +64,11 @@ class Alumni(models.Model):
         
     def serialize_nationality(self):
         return str(self.nationality)
+    
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._meta.get_field('exam_center').choices = get_centers_from_csv('ubiteb\examCenters.csv')
     
     
 
