@@ -20,28 +20,7 @@ class createuserform(UserCreationForm):
 class addAlumnus(forms.ModelForm):
     exam_centers = forms.TypedChoiceField(choices=(), coerce=str)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # Set the choices for the exam_centers field
-        self.fields['exam_center'].choices = get_centers_from_csv('ubiteb/examCenters.csv')
-        
-        # Set up crispy forms helper
-        self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', 'Submit'))
-        
     disrticts = forms.TypedChoiceField(choices=(), coerce=str)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # Set the choices for the exam_centers field
-        self.fields['district'].choices = get_districts_from_csv('ubiteb/districts.csv')
-        
-        # Set up crispy forms helper
-        self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', 'Submit'))
-        
         
     progrms = forms.TypedChoiceField(choices=(), coerce=str)
 
@@ -49,12 +28,16 @@ class addAlumnus(forms.ModelForm):
         super().__init__(*args, **kwargs)
         
         # Set the choices for the exam_centers field
+        self.fields['exam_center'].choices = get_centers_from_csv('ubiteb/examCenters.csv')
         self.fields['program'].choices = get_programs_from_csv('ubiteb/programs.csv')
+        self.fields['district'].choices = get_districts_from_csv('ubiteb/districts.csv')
         
         # Set up crispy forms helper
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Submit'))
         
+
+
     class Meta:
         model = Alumni
         fields = '__all__'

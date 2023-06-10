@@ -7,6 +7,10 @@ from django_countries.fields import CountryField
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
+
+from ubiteb.utils import get_centers_from_csv
+from ubiteb.utils import get_districts_from_csv
+from ubiteb.utils import get_programs_from_csv
 from .utils import *
 
 
