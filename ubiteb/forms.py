@@ -17,20 +17,22 @@ class createuserform(UserCreationForm):
 
 class addAlumnus(forms.ModelForm):
     exam_centers = forms.TypedChoiceField(choices=(), coerce=str)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Set the choices for the exam_centers field
+        self.fields['exam_center'].choices = get_centers_from_csv('ubiteb/examCenters.csv')
+        
+        # Set up crispy forms helper
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Submit'))
     
     class Meta:
         model = Alumni
         fields = '__all__'
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # Set the choices for the exam_centers field
-        self.fields['exam_centers'].choices = get_centers_from_csv('ubiteb/examCenters.csv')
-        
-        # Set up crispy forms helper
-        self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', 'Submit'))
+
 
 class editAlumnus(ModelForm):
     class Meta:
