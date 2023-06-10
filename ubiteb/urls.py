@@ -25,5 +25,5 @@ urlpatterns = [
     #path('upload-csv/', CsvUploader.as_view(), name='upload-csv'),
     path('api/', include(router.urls), name='api'),
     url('^csv-uploader/$', CsvUploader.as_view(), name='csv-uploader'),
-   # path('upload-csv', views.upload , name='upload'),
+   # path('edit-alumni', views.editAl , name='edit_alumni'),
 ]

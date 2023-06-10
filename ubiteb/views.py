@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView
 from .forms import addAlumnus, editAlumnus
 import csv
 import logging
+from django.db.models import Q
 
 
 # Create your views here.
@@ -79,6 +80,20 @@ def alumni(request):
     Alumni_filters =Alumni_filter(request.GET, queryset=alumni)
     alumni = Alumni_filters.qs
     total_count = alumni.count()
+
+    if request.GET.get('certificate_status') == 'True':
+        alumni = alumni.filter(certificate_status=False)
+
+    if request.GET.get('transcript_status') == 'True':
+        alumni = alumni.filter(transcript_status=False)
+    
+    gender = request.GET.get('gender')
+    if gender:
+        alumni = alumni.filter(gender=gender)
+
+
+
+
     return render(request, 'alumni_list.html', {'alumni':alumni,'Alumni_filters':Alumni_filters,'total_count':total_count})
 
 def delete(request):
@@ -140,4 +155,3 @@ class CsvUploader(TemplateView):
             except Exception as e:
                 print(e)
                 #Handle exceptions appropriately (e.g., log them, display error messages, etc.)
-
