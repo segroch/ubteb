@@ -18,11 +18,11 @@ class createuserform(UserCreationForm):
         fields = ['username', 'password']
 
 class addAlumnus(forms.ModelForm):
-    exam_centers = forms.TypedChoiceField(choices=(), coerce=str)
+    #exam_centers = forms.TypedChoiceField(choices=(), coerce=str)
 
-    disrticts = forms.TypedChoiceField(choices=(), coerce=str)
+    #disrticts = forms.TypedChoiceField(choices=(), coerce=str)
         
-    progrms = forms.TypedChoiceField(choices=(), coerce=str)
+    #progrms = forms.TypedChoiceField(choices=(), coerce=str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
