@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
-from .utils import get_centers_from_csv
+from .utils import *
 
 
 # Create your models here.
@@ -25,11 +25,6 @@ class Alumni(models.Model):
                             ("Diploma", "Diploma"),
                             ("National Certificate", "National Certificate"),
                             ("Uganda Community of Polytechnic Certificate", "UCPC"),]
-    
-    PROGRAM_CHOICES = [('National Diploma in Mechanic Engineering', 'National Diploma in Mechanical Engineering'),
-                       ('National Diploma in Civil Engineering', 'National Diploma in Civil Engineering'),
-                       ('National Diploma in Water Engineering', 'National Diploma in Water Engineering'),
-                       ('National Diploma in Electrical Engineering', 'National Diploma in Electrical Engineering')]
     
     TRANSCRIPT_CHOICES = [("Received", "Received"), ("Not Received", "Not Received")]
     
@@ -50,9 +45,9 @@ class Alumni(models.Model):
     phone_number = PhoneNumberField()
     email=models.EmailField(max_length=50, unique=True)
     nationality = CountryField()
-    district = models.CharField(max_length=30, blank=True)
+    district = models.CharField(max_length=100, choices=()) 
     program_level = models.CharField(max_length=100, choices=PROGRAM_LEVEL_CHOICES)
-    program = models.CharField(max_length=50, choices=PROGRAM_CHOICES, default=None)
+    program = models.CharField(max_length=200, choices=()) 
     exam_center = models.CharField(max_length=200, choices=())
     start_year = models.IntegerField(_('Start Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     completion_year = models.IntegerField(_('Completion Year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
@@ -69,6 +64,16 @@ class Alumni(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._meta.get_field('exam_center').choices = get_centers_from_csv('ubiteb\examCenters.csv')
+     
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._meta.get_field('district').choices = get_districts_from_csv('ubiteb\districts.csv')
+    
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._meta.get_field('program').choices = get_programs_from_csv('ubiteb\programs.csv')
     
     
 

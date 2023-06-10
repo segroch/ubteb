@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .utils import get_centers_from_csv
+from .utils import *
 
 # Rest of your code...
 
@@ -27,7 +27,32 @@ class addAlumnus(forms.ModelForm):
         # Set up crispy forms helper
         self.helper = FormHelper()
         self.helper.add_input(Submit('submit', 'Submit'))
-    
+        
+    disrticts = forms.TypedChoiceField(choices=(), coerce=str)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Set the choices for the exam_centers field
+        self.fields['district'].choices = get_districts_from_csv('ubiteb/districts.csv')
+        
+        # Set up crispy forms helper
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Submit'))
+        
+        
+    progrms = forms.TypedChoiceField(choices=(), coerce=str)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # Set the choices for the exam_centers field
+        self.fields['program'].choices = get_programs_from_csv('ubiteb/programs.csv')
+        
+        # Set up crispy forms helper
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Submit'))
+        
     class Meta:
         model = Alumni
         fields = '__all__'
